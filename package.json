@@ -19,5 +19,8 @@
   "homepage": "https://github.com/project-beardy/figma-scripts#readme",
   "dependencies": {
     "@types/figma": "^1.0.4"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.43.0"
   }
 }
