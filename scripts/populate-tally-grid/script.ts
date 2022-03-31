@@ -17,6 +17,10 @@ if (node.layoutMode === "NONE") {
 	node.paddingRight = 0;
 }
 
+if (node.children.length > 0) {
+  node.children.forEach(c => c.remove());
+}
+
 let { width, height } = node;
 
 console.log("node", node);
@@ -31,7 +35,7 @@ for (i = 0; i <= MAX_POSSIBLE_ROWS; i++ ) {
 	});
 	newRow.layoutMode = "HORIZONTAL";
 	newRow.primaryAxisAlignItems = "SPACE_BETWEEN";
-	newRow.name = `row ${i}`;
+	newRow.name = `row ${i+1}`;
 
   /** This feels super hacky. It's the only way to FORCE */
   /** the child row items to behave as 'fill container' */
