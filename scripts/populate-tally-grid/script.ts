@@ -46,7 +46,12 @@ for (i = 0; i <= MAX_POSSIBLE_ROWS; i++ ) {
 
 	// newRow.layoutGrow = 1;
 	for(j = 1; j <= 10; j++) {
-			let newtext = createText();
+			let newtext = createText({
+				fontName: {
+					family: "Source Sans Pro",
+					style: "Regular"
+				}
+			});
 			newtext.textAlignHorizontal = "CENTER";
 			newtext.resize(24, 15);
 
