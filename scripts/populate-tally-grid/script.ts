@@ -2,7 +2,8 @@
 const node: SceneNode = figma.currentPage.selection[0];
 const ori = (node.width > node.height) ? "landscape" : "portrait";
 
-const MAX_POSSIBLE_ROWS = (node.height / 24) - 1;
+const ROW_HEIGHT = 20;
+const MAX_POSSIBLE_ROWS = (node.height / ROW_HEIGHT) - 1;
 // const MAX_POSSIBLE_ROWS = 2;
 
 //	If the selected node isn't set up for expected auto-layout configuration…
@@ -31,7 +32,7 @@ let j;
 
 for (i = 0; i <= MAX_POSSIBLE_ROWS; i++ ) {
 	let newRow = createFrame({
-		height: 24,
+		height: ROW_HEIGHT,
 	});
 	newRow.layoutMode = "HORIZONTAL";
 	newRow.primaryAxisAlignItems = "SPACE_BETWEEN";
@@ -39,7 +40,7 @@ for (i = 0; i <= MAX_POSSIBLE_ROWS; i++ ) {
 
   /** This feels super hacky. It's the only way to FORCE */
   /** the child row items to behave as 'fill container' */
-	newRow.resize(width, 24);
+	newRow.resize(width, ROW_HEIGHT);
 	newRow.layoutAlign = "STRETCH";
 	newRow.primaryAxisSizingMode = "FIXED";
   newRow.counterAxisAlignItems = "CENTER";
