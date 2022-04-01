@@ -3,12 +3,12 @@ const node: SceneNode = figma.currentPage.selection[0];
 const ori = (node.width > node.height) ? "landscape" : "portrait";
 
 const ROW_HEIGHT = 20;
-const MAX_POSSIBLE_ROWS = (node.height / ROW_HEIGHT) - 1;
-// const MAX_POSSIBLE_ROWS = 2;
+const MAX_COLUMN_WIDTH = 24;
+const MAX_POSSIBLE_ROWS = Math.round((node.height / ROW_HEIGHT) - 1);
 
-//	If the selected node isn't set up for expected auto-layout configuration…
+/** If the selected node isn't alset up for auto-layout… */
 if (node.layoutMode === "NONE") {
-	// …then do something
+	/** then do something about it… */
 	node.layoutMode = "VERTICAL";
 	node.primaryAxisAlignItems = "SPACE_BETWEEN";
 	node.counterAxisSizingMode = "FIXED";
@@ -18,17 +18,16 @@ if (node.layoutMode === "NONE") {
 	node.paddingRight = 0;
 }
 
+/** If the selected node currently has children… */
 if (node.children.length > 0) {
+  /** …then burn them to the ground !! */
   node.children.forEach(c => c.remove());
 }
 
 let { width, height } = node;
 
-console.log("node", node);
-
 let i;
 let j;
-
 
 for (i = 0; i <= MAX_POSSIBLE_ROWS; i++ ) {
 	let newRow = createFrame({
@@ -45,24 +44,24 @@ for (i = 0; i <= MAX_POSSIBLE_ROWS; i++ ) {
 	newRow.primaryAxisSizingMode = "FIXED";
   newRow.counterAxisAlignItems = "CENTER";
 
-	// newRow.layoutGrow = 1;
-	for(j = 1; j <= 10; j++) {
-			let newtext = createText({
-				fontName: {
-					family: "Source Sans Pro",
-					style: "Regular"
-				}
-			});
-			newtext.textAlignHorizontal = "CENTER";
-			newtext.resize(24, 15);
+  /** figure out how many columns we can get in */
+  let MAX_COLUMNS = (ori === "portrait" && node.width <= (MAX_COLUMN_WIDTH * 10)) ? 10 : Math.round(node.width / MAX_COLUMN_WIDTH);
 
-      /** render the correct number in the field */
-			newtext.characters = `${(i === 0) ? (j) : (i * 10) + (j)}`;
-			newRow.appendChild(newtext);
+	// newRow.layoutGrow = 1;
+	for(j = 1; j <= MAX_COLUMNS; j++) {
+    let newtext = createText({
+      fontName: {
+      family: "Source Sans Pro",
+      style: "Regular"
+      }
+    });
+    newtext.textAlignHorizontal = "CENTER";
+    newtext.resize(24, 15);
+
+    /** render the correct number in the field */
+    newtext.characters = `${(i === 0) ? (j) : (i * MAX_COLUMNS) + (j)}`;
+    newRow.appendChild(newtext);
 	}
 
 	node.appendChild(newRow);
 }
-
-// node.resize(width, height);
-console.log("orientation", ori);
